@@ -1,2 +1,2 @@
 # vmPython
-Máquina virtual para Python usando Vagrant
+Máquina virtual para Python usando Vagrant e Puppet
