@@ -54,11 +54,31 @@ exec {"instalando-developer-tools":
 
 #Fazendo download Python 3.3 e descompactando
 exec {"download-python-e-descompactando":
-	command => "sudo bash -c 'wget http://www.python.org/ftp/python/3.3.3/Python-3.3.3.tar.xz; xz -d Python-3.3.3.tar.xz -C /opt/'",
+	command => "sudo bash -c 'wget http://www.python.org/ftp/python/3.3.3/Python-3.3.3.tar.xz;tar xf /home/vagrant/Python-3.3.3.tar.xz'",
 	path => "/usr/bin:/bin/",
 	user => "root",
 	timeout => 10000,
-	creates => "/opt/Python-3.3.3" ,
+	creates => "/home/vagrant/Python-3.3.3" ,
 	require => Exec["instalando-developer-tools"],
 }
+
+#Configurando
+exec {"configurando-python":
+	command => "sudo bash -c 'cd /home/vagrant/Python-3.3.3; ./configure'",
+	path => "/usr/bin:/bin/",
+	user => "root",
+	timeout => 10000,
+	require => Exec["download-python-e-descompactando"],
+}
+
+#Instalando
+exec {"instalando-python":
+	command => "sudo bash -c 'make && make altinstall'",
+	path => "/usr/bin:/bin/",
+	user => "root",
+	timeout => 10000,
+	require => Exec["configurando-python"],
+}
+
+
 
